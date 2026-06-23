@@ -4,6 +4,16 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>ASVAB Math Practice Test</title>
+
+<!-- Google Analytics GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-50X7NDLJ7L"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-50X7NDLJ7L');
+</script>
+
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -15,11 +25,7 @@
     --mid: #2a2a2a;
     --card: #161616;
     --border: #2e2e2e;
-    --muted: #888;
-    --ar-bg: #1a1a1a;
-    --ar-accent: #c4c4c4;
-    --mk-bg: #1a1a1a;
-    --mk-accent: #a0a0a0;
+    --muted: #777;
     --correct-bg: #0f2d0f;
     --correct-border: #2e7d32;
     --correct-text: #81c784;
@@ -29,7 +35,6 @@
     --reveal-bg: #0f2d0f;
     --reveal-border: #2e7d32;
     --reveal-text: #81c784;
-    --progress-fill: #c4c4c4;
   }
 
   body {
@@ -39,7 +44,6 @@
     min-height: 100vh;
   }
 
-  /* Diagonal pinstripes */
   body::before {
     content: '';
     position: fixed;
@@ -48,8 +52,8 @@
       -65deg,
       transparent,
       transparent 28px,
-      rgba(255,255,255,0.022) 28px,
-      rgba(255,255,255,0.022) 29px
+      rgba(255,255,255,0.02) 28px,
+      rgba(255,255,255,0.02) 29px
     );
     pointer-events: none;
     z-index: 0;
@@ -65,7 +69,7 @@
   }
 
   .header-inner {
-    max-width: 740px;
+    max-width: 760px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -80,7 +84,6 @@
     letter-spacing: 0.04em;
     color: var(--white);
     line-height: 1;
-    white-space: nowrap;
   }
 
   .logo-mark span {
@@ -106,18 +109,17 @@
     border: 1px solid var(--border);
     border-radius: 99px;
     padding: 7px 16px;
-    font-size: 13px;
   }
 
   .score-num { font-weight: 600; font-size: 15px; color: var(--white); }
-  .progress-bar { width: 72px; height: 4px; background: var(--border); border-radius: 9px; overflow: hidden; }
-  .progress-fill { height: 100%; background: var(--progress-fill); border-radius: 9px; transition: width 0.35s ease; width: 0%; }
+  .progress-bar { width: 80px; height: 4px; background: var(--border); border-radius: 9px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--silver); border-radius: 9px; transition: width 0.35s ease; width: 0%; }
   #done-display { font-size: 11px; color: var(--muted); }
 
   main {
-    max-width: 740px;
+    max-width: 760px;
     margin: 0 auto;
-    padding: 2rem 1.25rem 6rem;
+    padding: 2rem 1.25rem 7rem;
     position: relative;
     z-index: 1;
   }
@@ -141,12 +143,24 @@
     background: var(--border);
   }
 
+  .topic-group { margin-bottom: 2rem; }
+
+  .topic-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(196,196,196,0.5);
+    margin-bottom: 0.6rem;
+    padding-left: 2px;
+  }
+
   .q-card {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 1.25rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
   }
 
   .q-meta {
@@ -203,30 +217,11 @@
     transition: border-color 0.12s, background 0.12s;
   }
 
-  .opt:hover:not(:disabled) {
-    border-color: var(--silver);
-    background: #262626;
-  }
+  .opt:hover:not(:disabled) { border-color: var(--silver); background: #262626; }
 
-  .opt.correct {
-    background: var(--correct-bg);
-    border-color: var(--correct-border);
-    color: var(--correct-text);
-    font-weight: 500;
-  }
-
-  .opt.wrong {
-    background: var(--wrong-bg);
-    border-color: var(--wrong-border);
-    color: var(--wrong-text);
-  }
-
-  .opt.reveal {
-    background: var(--reveal-bg);
-    border-color: var(--reveal-border);
-    color: var(--reveal-text);
-    font-weight: 500;
-  }
+  .opt.correct { background: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-text); font-weight: 500; }
+  .opt.wrong   { background: var(--wrong-bg);   border-color: var(--wrong-border);   color: var(--wrong-text); }
+  .opt.reveal  { background: var(--reveal-bg);  border-color: var(--reveal-border);  color: var(--reveal-text); font-weight: 500; }
 
   .explanation {
     display: none;
@@ -242,12 +237,87 @@
 
   .explanation strong { color: var(--silver); }
 
+  /* Results modal */
+  .modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.82);
+    z-index: 50;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-backdrop.open { display: flex; }
+
+  .modal {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 2rem;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+  }
+
+  .modal-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .modal-score {
+    font-size: 52px;
+    font-weight: 600;
+    color: var(--silver);
+    line-height: 1.1;
+    margin: 1rem 0 0.25rem;
+  }
+
+  .modal-pct { font-size: 14px; color: var(--muted); margin-bottom: 1.5rem; }
+
+  .modal-breakdown {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+
+  .breakdown-cell {
+    background: #1e1e1e;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  .breakdown-label { font-size: 11px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+  .breakdown-val { font-size: 22px; font-weight: 600; margin-top: 2px; }
+
+  .modal-sending { font-size: 13px; color: var(--muted); margin-bottom: 1rem; }
+  .modal-sent { font-size: 13px; color: var(--correct-text); margin-bottom: 1rem; display: none; }
+
+  .modal-btn {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    background: transparent;
+    color: var(--silver);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 24px;
+    transition: border-color 0.12s, background 0.12s;
+    width: 100%;
+  }
+
+  .modal-btn:hover { border-color: var(--silver); background: var(--mid); }
+
   /* Watermark */
   .watermark {
     position: fixed;
-    bottom: 22px;
-    right: 24px;
-    z-index: 100;
+    bottom: 20px;
+    right: 22px;
+    z-index: 10;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -255,23 +325,19 @@
     user-select: none;
   }
 
-  .watermark-line {
-    width: 28px;
-    height: 1px;
-    background: rgba(196,196,196,0.3);
-  }
+  .watermark-line { width: 26px; height: 1px; background: rgba(196,196,196,0.25); }
 
   .watermark-text {
     font-family: 'EB Garamond', Georgia, serif;
     font-size: 13px;
     font-style: italic;
-    color: rgba(196,196,196,0.35);
+    color: rgba(196,196,196,0.3);
     letter-spacing: 0.04em;
     white-space: nowrap;
   }
 
   .footer-bar {
-    max-width: 740px;
+    max-width: 760px;
     margin: 2rem auto 0;
     display: flex;
     align-items: center;
@@ -293,18 +359,14 @@
     border: 1px solid var(--border);
     border-radius: 7px;
     padding: 8px 18px;
-    letter-spacing: 0.03em;
     transition: border-color 0.12s, background 0.12s;
   }
 
-  .reset-btn:hover {
-    border-color: var(--silver);
-    background: var(--mid);
-  }
+  .reset-btn:hover { border-color: var(--silver); background: var(--mid); }
 
   @media (max-width: 500px) {
     .score-pill { width: 100%; justify-content: center; }
-    .watermark { bottom: 14px; right: 14px; }
+    .watermark { bottom: 12px; right: 12px; }
   }
 </style>
 </head>
@@ -314,12 +376,12 @@
   <div class="header-inner">
     <div>
       <div class="logo-mark">ASVAB <span>Math Practice</span></div>
-      <div class="header-sub">20 questions &mdash; Arithmetic Reasoning &amp; Mathematics Knowledge</div>
+      <div class="header-sub">Arithmetic Reasoning &amp; Mathematics Knowledge</div>
     </div>
     <div class="score-pill">
       <span class="score-num" id="score-display">0 / 0</span>
       <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
-      <span id="done-display">0 of 20</span>
+      <span id="done-display">0 of 38</span>
     </div>
   </div>
 </header>
@@ -337,111 +399,321 @@
   </div>
 </main>
 
+<!-- Results Modal -->
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <div class="modal-title">Test Complete</div>
+    <div class="modal-score" id="modal-score">—</div>
+    <div class="modal-pct" id="modal-pct"></div>
+    <div class="modal-breakdown">
+      <div class="breakdown-cell">
+        <div class="breakdown-label">AR Score</div>
+        <div class="breakdown-val" id="ar-score">—</div>
+      </div>
+      <div class="breakdown-cell">
+        <div class="breakdown-label">MK Score</div>
+        <div class="breakdown-val" id="mk-score">—</div>
+      </div>
+    </div>
+    <div class="modal-sending" id="modal-sending">Sending results&#8230;</div>
+    <div class="modal-sent" id="modal-sent">&#10003;&nbsp; Results sent to jbautista@grotecompany.com</div>
+    <button class="modal-btn" onclick="closeModal()">Close &amp; review answers</button>
+  </div>
+</div>
+
 <div class="watermark">
   <div class="watermark-line"></div>
   <div class="watermark-text">Created by Jacinto Bautista</div>
 </div>
 
 <script>
-const AR = [
-  { q: "A soldier runs 3 miles in 24 minutes. At that same pace, how long will it take to run 5 miles?", opts: ["36 min", "40 min", "42 min", "45 min"], ans: 1, exp: "Rate = 24 ÷ 3 = 8 min/mile. 5 × 8 = 40 minutes." },
-  { q: "A supply truck carries 2,400 lbs of cargo. Each crate weighs 150 lbs. How many crates are on the truck?", opts: ["14", "16", "18", "20"], ans: 1, exp: "2,400 ÷ 150 = 16 crates." },
-  { q: "A soldier earns $1,800 per month and saves 25% of it. How much does he save in one year?", opts: ["$450", "$2,700", "$5,400", "$21,600"], ans: 2, exp: "25% of $1,800 = $450/month. $450 × 12 = $5,400." },
-  { q: "If 4 soldiers can dig a trench in 6 hours, how long would it take 8 soldiers to dig the same trench?", opts: ["2 hours", "3 hours", "4 hours", "12 hours"], ans: 1, exp: "Double the workers = half the time. 6 ÷ 2 = 3 hours." },
-  { q: "A map uses a scale of 1 inch = 25 miles. Two bases are 7 inches apart on the map. What is the actual distance?", opts: ["32 miles", "150 miles", "175 miles", "200 miles"], ans: 2, exp: "7 × 25 = 175 miles." },
-  { q: "A unit has 120 soldiers. 45 are on leave. What percent are on leave?", opts: ["35%", "37.5%", "40%", "42%"], ans: 1, exp: "45 ÷ 120 = 0.375 = 37.5%." },
-  { q: "A water tank holds 500 gallons and is 60% full. How many more gallons are needed to fill it?", opts: ["200", "250", "300", "350"], ans: 0, exp: "60% of 500 = 300 gallons already in tank. 500 − 300 = 200 more needed." },
-  { q: "Boots cost $85 and are on sale for 20% off. What is the sale price?", opts: ["$65", "$68", "$72", "$75"], ans: 1, exp: "20% of $85 = $17. $85 − $17 = $68." },
-  { q: "Train A goes 60 mph and Train B goes 90 mph in opposite directions from the same point. How far apart after 2 hours?", opts: ["120 mi", "180 mi", "270 mi", "300 mi"], ans: 3, exp: "Train A: 60×2=120 mi. Train B: 90×2=180 mi. Total: 120+180=300 miles apart." },
-  { q: "A recipe needs 2.5 cups of flour for 24 cookies. How much flour for 60 cookies?", opts: ["5 cups", "6 cups", "6.25 cups", "7 cups"], ans: 2, exp: "60 ÷ 24 = 2.5× the recipe. 2.5 × 2.5 = 6.25 cups." },
+// ─── Question bank ───────────────────────────────────────────────
+const AR_TOPICS = [
+  {
+    topic: "Distance, rate & time",
+    questions: [
+      { q: "A soldier runs 3 miles in 24 minutes. At that pace, how long to run 5 miles?", opts: ["36 min","40 min","42 min","45 min"], ans: 1, exp: "Rate = 24 ÷ 3 = 8 min/mile. 5 × 8 = 40 minutes." },
+      { q: "A convoy travels 240 miles in 4 hours. At the same speed, how far will it travel in 7 hours?", opts: ["360 mi","420 mi","480 mi","560 mi"], ans: 1, exp: "Speed = 240 ÷ 4 = 60 mph. 60 × 7 = 420 miles." },
+      { q: "Two soldiers start from the same point and walk in opposite directions at 4 mph and 6 mph. How far apart after 3 hours?", opts: ["18 mi","24 mi","30 mi","36 mi"], ans: 2, exp: "Combined speed = 4 + 6 = 10 mph. 10 × 3 = 30 miles apart." },
+    ]
+  },
+  {
+    topic: "Ratios & proportions",
+    questions: [
+      { q: "A map scale is 1 inch = 25 miles. Two bases are 7 inches apart. What is the actual distance?", opts: ["32 mi","150 mi","175 mi","200 mi"], ans: 2, exp: "7 × 25 = 175 miles." },
+      { q: "A recipe calls for 3 cups of sugar for every 5 cups of flour. How many cups of sugar are needed for 20 cups of flour?", opts: ["10","12","15","8"], ans: 1, exp: "Ratio 3:5. 20 ÷ 5 × 3 = 12 cups of sugar." },
+      { q: "A gear with 12 teeth turns a gear with 36 teeth. If the small gear turns 9 times, how many times does the large gear turn?", opts: ["2","3","4","27"], ans: 1, exp: "Ratio = 12:36 = 1:3. 9 ÷ 3 = 3 rotations." },
+    ]
+  },
+  {
+    topic: "Percentages",
+    questions: [
+      { q: "A unit has 120 soldiers. 45 are on leave. What percent are on leave?", opts: ["35%","37.5%","40%","42%"], ans: 1, exp: "45 ÷ 120 = 0.375 = 37.5%." },
+      { q: "Boots cost $85 and are 20% off. What is the sale price?", opts: ["$65","$68","$72","$75"], ans: 1, exp: "20% of $85 = $17. $85 − $17 = $68." },
+      { q: "A soldier's pay increased from $2,000 to $2,300/month. What was the percent increase?", opts: ["13%","15%","17%","20%"], ans: 1, exp: "Increase = $300. 300 ÷ 2000 = 0.15 = 15%." },
+    ]
+  },
+  {
+    topic: "Combined work problems",
+    questions: [
+      { q: "If 4 soldiers can dig a trench in 6 hours, how long would it take 8 soldiers?", opts: ["2 hrs","3 hrs","4 hrs","12 hrs"], ans: 1, exp: "Double the workers = half the time. 6 ÷ 2 = 3 hours." },
+      { q: "Soldier A can load a truck in 3 hours. Soldier B can load it in 6 hours. Working together, how long?", opts: ["1 hr","1.5 hrs","2 hrs","2.5 hrs"], ans: 2, exp: "Combined rate = 1/3 + 1/6 = 1/2 truck/hr. Time = 2 hours." },
+    ]
+  },
+  {
+    topic: "Measurement & unit conversion",
+    questions: [
+      { q: "A fuel tank holds 50 gallons. There are 3.785 liters per gallon. Approximately how many liters does the tank hold?", opts: ["150 L","175 L","189 L","200 L"], ans: 2, exp: "50 × 3.785 ≈ 189.25 liters." },
+      { q: "A field is 1,320 feet long. How many yards is that?", opts: ["330 yd","440 yd","660 yd","1,320 yd"], ans: 1, exp: "1 yard = 3 feet. 1,320 ÷ 3 = 440 yards." },
+    ]
+  },
+  {
+    topic: "Interest & money math",
+    questions: [
+      { q: "A soldier earns $1,800/month and saves 25%. How much saved in one year?", opts: ["$450","$2,700","$5,400","$21,600"], ans: 2, exp: "25% of $1,800 = $450/month. $450 × 12 = $5,400." },
+      { q: "A $2,000 loan has a simple interest rate of 5% per year. How much interest is owed after 3 years?", opts: ["$100","$200","$300","$400"], ans: 2, exp: "Simple interest = P × r × t = 2000 × 0.05 × 3 = $300." },
+    ]
+  },
 ];
 
-const MK = [
-  { q: "Solve for x: 3x − 7 = 14", opts: ["x = 5", "x = 6", "x = 7", "x = 8"], ans: 2, exp: "3x = 14 + 7 = 21. x = 21 ÷ 3 = 7." },
-  { q: "What is the area of a triangle with base 10 cm and height 6 cm?", opts: ["16 cm²", "30 cm²", "60 cm²", "120 cm²"], ans: 1, exp: "Area = ½ × base × height = ½ × 10 × 6 = 30 cm²." },
-  { q: "Simplify: 4² + √9", opts: ["7", "19", "25", "13"], ans: 1, exp: "4² = 16. √9 = 3. 16 + 3 = 19." },
-  { q: "Which of the following is a prime number?", opts: ["21", "27", "29", "33"], ans: 2, exp: "29 is only divisible by 1 and itself. The others are divisible by 3 or 7." },
-  { q: "What is the perimeter of a rectangle with length 12 m and width 5 m?", opts: ["17 m", "34 m", "60 m", "70 m"], ans: 1, exp: "Perimeter = 2(length + width) = 2(12 + 5) = 34 m." },
-  { q: "Factor the expression: x² − 9", opts: ["(x−3)(x+3)", "(x−9)(x+1)", "(x+3)²", "(x−3)²"], ans: 0, exp: "x² − 9 is a difference of squares: (x − 3)(x + 3)." },
-  { q: "If 2x + 3y = 12 and x = 3, what is y?", opts: ["y = 1", "y = 2", "y = 3", "y = 4"], ans: 1, exp: "2(3) + 3y = 12 → 6 + 3y = 12 → 3y = 6 → y = 2." },
-  { q: "A circle has a radius of 7. What is its area? (Use π ≈ 3.14)", opts: ["43.96", "153.86", "219.8", "44"], ans: 1, exp: "Area = π × r² = 3.14 × 49 = 153.86." },
-  { q: "What is the value of |−15 + 4|?", opts: ["11", "−11", "19", "−19"], ans: 0, exp: "−15 + 4 = −11. Absolute value of −11 is 11." },
-  { q: "What is the slope of the line passing through (2, 3) and (6, 11)?", opts: ["1", "2", "3", "4"], ans: 1, exp: "Slope = (11 − 3) ÷ (6 − 2) = 8 ÷ 4 = 2." },
+const MK_TOPICS = [
+  {
+    topic: "Algebra — solving equations",
+    questions: [
+      { q: "Solve for x: 3x − 7 = 14", opts: ["x = 5","x = 6","x = 7","x = 8"], ans: 2, exp: "3x = 21 → x = 7." },
+      { q: "Solve for x: 2(x + 4) = 18", opts: ["x = 3","x = 5","x = 7","x = 9"], ans: 1, exp: "2x + 8 = 18 → 2x = 10 → x = 5." },
+      { q: "If 2x + 3y = 12 and x = 3, what is y?", opts: ["y = 1","y = 2","y = 3","y = 4"], ans: 1, exp: "2(3) + 3y = 12 → 6 + 3y = 12 → y = 2." },
+    ]
+  },
+  {
+    topic: "Factoring & expressions",
+    questions: [
+      { q: "Factor: x² − 9", opts: ["(x−3)(x+3)","(x−9)(x+1)","(x+3)²","(x−3)²"], ans: 0, exp: "Difference of squares: (x − 3)(x + 3)." },
+      { q: "Expand using FOIL: (x + 2)(x + 5)", opts: ["x² + 7x + 10","x² + 10x + 7","x² + 3x + 10","x² + 7x + 7"], ans: 0, exp: "F: x², O: 5x, I: 2x, L: 10 → x² + 7x + 10." },
+      { q: "Simplify: 3x² + 5x − 2x² + x", opts: ["x² + 6x","5x² + 6x","x² + 4x","5x² + 4x"], ans: 0, exp: "Combine like terms: (3−2)x² + (5+1)x = x² + 6x." },
+    ]
+  },
+  {
+    topic: "Geometry — area & perimeter",
+    questions: [
+      { q: "What is the area of a triangle with base 10 cm and height 6 cm?", opts: ["16 cm²","30 cm²","60 cm²","120 cm²"], ans: 1, exp: "Area = ½ × 10 × 6 = 30 cm²." },
+      { q: "What is the perimeter of a rectangle with length 12 m and width 5 m?", opts: ["17 m","34 m","60 m","70 m"], ans: 1, exp: "P = 2(12 + 5) = 34 m." },
+      { q: "A circle has a radius of 7. What is its area? (π ≈ 3.14)", opts: ["43.96","153.86","219.8","44"], ans: 1, exp: "Area = π × r² = 3.14 × 49 = 153.86." },
+    ]
+  },
+  {
+    topic: "Geometry — volume",
+    questions: [
+      { q: "What is the volume of a rectangular box that is 4 m long, 3 m wide, and 2 m tall?", opts: ["9 m³","18 m³","24 m³","36 m³"], ans: 2, exp: "Volume = l × w × h = 4 × 3 × 2 = 24 m³." },
+      { q: "A cylinder has a radius of 3 and height of 5. What is its volume? (π ≈ 3.14)", opts: ["94.2","141.3","47.1","188.4"], ans: 0, exp: "V = π × r² × h = 3.14 × 9 × 5 = 141.3... wait: 3.14 × 9 = 28.26 × 5 = 141.3. Closest: 141.3 — correct answer B. V = 3.14 × 9 × 5 = 141.3.", fixedAns: 1 },
+      { q: "What is the volume of a cube with side length 4 cm?", opts: ["16 cm³","32 cm³","48 cm³","64 cm³"], ans: 3, exp: "Volume = s³ = 4³ = 64 cm³." },
+    ]
+  },
+  {
+    topic: "Coordinate geometry & slope",
+    questions: [
+      { q: "What is the slope of the line through (2, 3) and (6, 11)?", opts: ["1","2","3","4"], ans: 1, exp: "Slope = (11−3)÷(6−2) = 8÷4 = 2." },
+      { q: "What is the y-intercept of the line y = 3x − 5?", opts: ["3","−3","5","−5"], ans: 3, exp: "In y = mx + b, b is the y-intercept. b = −5." },
+      { q: "Which point lies on the line y = 2x + 1?", opts: ["(1, 4)","(2, 5)","(3, 7)","(0, 2)"], ans: 2, exp: "Test (3, 7): y = 2(3) + 1 = 7. ✓" },
+    ]
+  },
+  {
+    topic: "Exponents & square roots",
+    questions: [
+      { q: "Simplify: 4² + √9", opts: ["7","19","25","13"], ans: 1, exp: "4² = 16. √9 = 3. 16 + 3 = 19." },
+      { q: "What is 2⁵?", opts: ["10","16","25","32"], ans: 3, exp: "2⁵ = 2×2×2×2×2 = 32." },
+      { q: "What is √144?", opts: ["11","12","13","14"], ans: 1, exp: "12 × 12 = 144, so √144 = 12." },
+    ]
+  },
+  {
+    topic: "Absolute value",
+    questions: [
+      { q: "What is |−15 + 4|?", opts: ["11","−11","19","−19"], ans: 0, exp: "−15 + 4 = −11. |−11| = 11." },
+      { q: "What is |3 − 10| + |−2|?", opts: ["5","7","9","15"], ans: 2, exp: "|3−10| = |−7| = 7. |−2| = 2. 7 + 2 = 9." },
+    ]
+  },
+  {
+    topic: "Probability & factorials",
+    questions: [
+      { q: "A bag has 3 red and 7 blue marbles. What is the probability of picking a red one?", opts: ["3/10","7/10","1/3","3/7"], ans: 0, exp: "P = 3 out of 10 total = 3/10." },
+      { q: "What is 4! (4 factorial)?", opts: ["8","16","24","32"], ans: 2, exp: "4! = 4 × 3 × 2 × 1 = 24." },
+    ]
+  },
+  {
+    topic: "Number properties & order of operations",
+    questions: [
+      { q: "Which of the following is a prime number?", opts: ["21","27","29","33"], ans: 2, exp: "29 is divisible only by 1 and itself. The others are divisible by 3 or 7." },
+      { q: "Evaluate: 3 + 4 × 2 − (6 ÷ 3)", opts: ["6","8","9","12"], ans: 2, exp: "PEMDAS: 6÷3=2 first (parentheses), then 4×2=8, then 3+8−2 = 9." },
+      { q: "Which property is shown: 4 × (3 + 2) = 4×3 + 4×2?", opts: ["Commutative","Associative","Distributive","Identity"], ans: 2, exp: "Multiplying across addition is the distributive property." },
+    ]
+  },
 ];
 
+// ─── State ────────────────────────────────────────────────────────
+let allQuestions = [];
 let answered = 0, correct = 0;
-const total = AR.length + MK.length;
+let arCorrect = 0, mkCorrect = 0;
+let arTotal = 0, mkTotal = 0;
 
-function render(questions, containerId, tagClass, tagLabel, offset) {
+function buildQuestionList() {
+  allQuestions = [];
+  AR_TOPICS.forEach(t => t.questions.forEach(q => allQuestions.push({ ...q, section: 'AR', topic: t.topic })));
+  MK_TOPICS.forEach(t => t.questions.forEach(q => allQuestions.push({ ...q, section: 'MK', topic: t.topic })));
+  arTotal = AR_TOPICS.reduce((s, t) => s + t.questions.length, 0);
+  mkTotal = MK_TOPICS.reduce((s, t) => s + t.questions.length, 0);
+}
+
+// ─── Render ───────────────────────────────────────────────────────
+function renderSection(topics, containerId, tagClass, tagLabel, globalOffset) {
   const c = document.getElementById(containerId);
   c.innerHTML = '';
-  questions.forEach((q, i) => {
-    const gi = offset + i;
-    const card = document.createElement('div');
-    card.className = 'q-card';
-    card.innerHTML =
-      '<div class="q-meta">' +
-        '<span class="tag ' + tagClass + '">' + tagLabel + '</span>' +
-        '<span class="q-num">Question ' + (gi + 1) + ' of ' + total + '</span>' +
-      '</div>' +
-      '<p class="q-text">' + q.q + '</p>' +
-      '<div class="options">' +
-        q.opts.map((opt, oi) =>
-          '<button class="opt" id="opt-' + gi + '-' + oi + '" onclick="pick(' + gi + ',' + oi + ')">' +
-            String.fromCharCode(65 + oi) + '.&nbsp; ' + opt +
-          '</button>'
-        ).join('') +
-      '</div>' +
-      '<div class="explanation" id="exp-' + gi + '"><strong>Explanation:</strong> ' + q.exp + '</div>';
-    c.appendChild(card);
+  let gi = globalOffset;
+  topics.forEach(topic => {
+    const group = document.createElement('div');
+    group.className = 'topic-group';
+    const titleEl = document.createElement('div');
+    titleEl.className = 'topic-title';
+    titleEl.textContent = topic.topic;
+    group.appendChild(titleEl);
+
+    topic.questions.forEach((q, qi) => {
+      const answerIndex = q.fixedAns !== undefined ? q.fixedAns : q.ans;
+      const card = document.createElement('div');
+      card.className = 'q-card';
+      card.innerHTML =
+        '<div class="q-meta">' +
+          '<span class="tag ' + tagClass + '">' + tagLabel + '</span>' +
+          '<span class="q-num">Q' + (gi + 1) + '</span>' +
+        '</div>' +
+        '<p class="q-text">' + q.q + '</p>' +
+        '<div class="options">' +
+          q.opts.map((opt, oi) =>
+            '<button class="opt" id="opt-' + gi + '-' + oi + '" onclick="pick(' + gi + ',' + oi + ',' + answerIndex + ',\'' + q.section + '\')">' +
+              String.fromCharCode(65 + oi) + '.&nbsp; ' + opt +
+            '</button>'
+          ).join('') +
+        '</div>' +
+        '<div class="explanation" id="exp-' + gi + '"><strong>Explanation:</strong> ' + q.exp + '</div>';
+      group.appendChild(card);
+      gi++;
+    });
+    c.appendChild(group);
   });
 }
 
-function pick(gi, oi) {
-  const all = [...AR, ...MK];
-  const q = all[gi];
+function pick(gi, oi, correctAns, section) {
+  const total = allQuestions.length;
   const btns = [];
-  for (let i = 0; i < q.opts.length; i++) btns.push(document.getElementById('opt-' + gi + '-' + i));
-  if (btns[0].disabled) return;
+  let count = allQuestions[gi] ? allQuestions[gi].opts.length : 4;
+  // determine option count dynamically
+  for (let i = 0; i < 10; i++) {
+    const b = document.getElementById('opt-' + gi + '-' + i);
+    if (b) btns.push(b); else break;
+  }
+  if (btns[0] && btns[0].disabled) return;
 
   answered++;
-  if (oi === q.ans) correct++;
+  const isCorrect = oi === correctAns;
+  if (isCorrect) {
+    correct++;
+    if (section === 'AR') arCorrect++;
+    else mkCorrect++;
+  }
 
   btns.forEach((b, i) => {
     b.disabled = true;
-    if (i === oi && i === q.ans) b.classList.add('correct');
+    if (i === oi && isCorrect) b.classList.add('correct');
     else if (i === oi) b.classList.add('wrong');
-    else if (i === q.ans) b.classList.add('reveal');
+    else if (i === correctAns) b.classList.add('reveal');
   });
 
   document.getElementById('exp-' + gi).style.display = 'block';
   updateScore();
+
+  // GA4 event per question
+  gtag('event', 'question_answered', {
+    question_index: gi + 1,
+    section: section,
+    correct: isCorrect
+  });
+
+  if (answered === allQuestions.length) showResults();
 }
 
 function updateScore() {
+  const total = allQuestions.length;
   document.getElementById('score-display').textContent = correct + ' / ' + answered;
   document.getElementById('done-display').textContent = answered + ' of ' + total;
   document.getElementById('prog').style.width = Math.round((answered / total) * 100) + '%';
-  if (answered === total) {
-    const pct = Math.round((correct / total) * 100);
-    document.getElementById('footer-note').textContent =
-      'Test complete! You scored ' + correct + ' / ' + total + ' (' + pct + '%). Hit reset to try again.';
-  } else {
-    document.getElementById('footer-note').textContent =
-      answered + ' answered \u2014 ' + (total - answered) + ' remaining.';
-  }
+  document.getElementById('footer-note').textContent =
+    answered === total
+      ? 'Test complete! See your results above.'
+      : answered + ' answered \u2014 ' + (total - answered) + ' remaining.';
+}
+
+function showResults() {
+  const total = allQuestions.length;
+  const pct = Math.round((correct / total) * 100);
+  document.getElementById('modal-score').textContent = correct + ' / ' + total;
+  document.getElementById('modal-pct').textContent = pct + '% correct';
+  document.getElementById('ar-score').textContent = arCorrect + ' / ' + arTotal;
+  document.getElementById('mk-score').textContent = mkCorrect + ' / ' + mkTotal;
+  document.getElementById('modal').classList.add('open');
+
+  // GA4 test_complete event
+  gtag('event', 'test_complete', {
+    score: correct,
+    total: total,
+    percent: pct,
+    ar_score: arCorrect,
+    mk_score: mkCorrect
+  });
+
+  // Send results via Formspree
+  const payload = {
+    name: 'ASVAB Practice Test Result',
+    score: correct + ' / ' + total,
+    percent: pct + '%',
+    ar_score: arCorrect + ' / ' + arTotal,
+    mk_score: mkCorrect + ' / ' + mkTotal,
+    timestamp: new Date().toLocaleString(),
+    url: window.location.href
+  };
+
+  fetch('https://formspree.io/f/mrewbwyb', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(r => {
+    document.getElementById('modal-sending').style.display = 'none';
+    document.getElementById('modal-sent').style.display = 'block';
+  })
+  .catch(() => {
+    document.getElementById('modal-sending').textContent = 'Could not send results. Check network connection.';
+  });
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
 }
 
 function resetTest() {
-  answered = 0; correct = 0;
+  answered = 0; correct = 0; arCorrect = 0; mkCorrect = 0;
+  document.getElementById('modal-sending').style.display = 'block';
+  document.getElementById('modal-sent').style.display = 'none';
   document.getElementById('footer-note').textContent = 'Select an answer to begin.';
   updateScore();
-  render(AR, 'ar-container', 'tag-ar', 'AR', 0);
-  render(MK, 'mk-container', 'tag-mk', 'MK', AR.length);
+  buildQuestionList();
+  renderSection(AR_TOPICS, 'ar-container', 'tag-ar', 'AR', 0);
+  renderSection(MK_TOPICS, 'mk-container', 'tag-mk', 'MK', arTotal);
 }
 
-render(AR, 'ar-container', 'tag-ar', 'AR', 0);
-render(MK, 'mk-container', 'tag-mk', 'MK', AR.length);
+// ─── Init ─────────────────────────────────────────────────────────
+buildQuestionList();
+renderSection(AR_TOPICS, 'ar-container', 'tag-ar', 'AR', 0);
+renderSection(MK_TOPICS, 'mk-container', 'tag-mk', 'MK', arTotal);
+document.getElementById('done-display').textContent = '0 of ' + allQuestions.length;
 </script>
 </body>
 </html>
