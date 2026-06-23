@@ -1,0 +1,179 @@
+================================================================================
+ASVAB MATH PRACTICE TEST — PROJECT SUMMARY
+Created by Jacinto Bautista
+================================================================================
+
+PROJECT OVERVIEW
+----------------
+Built a fully functional, standalone ASVAB Math Practice Test web page hosted
+on GitHub Pages. The test covers both math sections of the ASVAB — Arithmetic
+Reasoning (AR) and Mathematics Knowledge (MK) — with 38 verified questions
+across 15 topics, styled in Chicago White Sox colors with a watermark, Google
+Analytics tracking, and automatic email delivery of results.
+
+LIVE URL
+--------
+https://jbautista-grotecompany.github.io/asvab-practice-test/
+
+FILE DELIVERED
+--------------
+index.html — single self-contained file, no dependencies except Google Fonts
+and the GA4 script tag. No framework, no build step, works in any browser.
+
+================================================================================
+FEATURES
+================================================================================
+
+1. WHITE SOX THEME
+   - Black background (#0d0d0d) with silver (#c4c4c4) accents
+   - Subtle diagonal pinstripe overlay mimicking Sox jersey
+   - EB Garamond serif font for headings for a classic/classy feel
+   - Inter sans-serif for body and UI elements
+   - Full dark mode — colors defined with CSS variables throughout
+
+2. WATERMARK
+   - Fixed bottom-right corner: "Created by Jacinto Bautista"
+   - Italic EB Garamond, semi-transparent silver
+   - Non-interactive (pointer-events: none)
+
+3. STICKY SCORE TRACKER (header)
+   - Live score display: correct / answered
+   - Progress bar fills as questions are completed
+   - "X of 38 done" counter
+
+4. QUESTION STRUCTURE
+   - Questions grouped by topic with topic labels
+   - Each card shows section tag (AR or MK) and question number
+   - After answering: correct answer turns green, wrong answer turns red,
+     correct answer is also revealed in green if wrong choice was made
+   - Explanation shown below after every answer
+
+5. INTERACTIVE GRAPHS (coordinate geometry only)
+   - "Show graph" button appears in explanation after answering
+   - Slope question: plots both points, line, and dashed rise/run triangle
+     with labels "rise = 8, run = 4"
+   - Y-intercept question: plots y = 3x − 5 with y-intercept highlighted
+   - Point-on-line question: plots y = 2x + 1 with all 4 answer choices
+     as colored dots (correct = white, wrong = red)
+   - Graphs drawn with HTML5 Canvas, no external libraries
+
+6. RESULTS MODAL
+   - Appears automatically when all 38 questions are answered
+   - Shows total score, percentage, AR score, and MK score separately
+   - Silently submits results to Formspree on completion
+
+7. RESET BUTTON
+   - Resets all question cards and score tracker to initial state
+
+================================================================================
+INTEGRATIONS
+================================================================================
+
+GOOGLE ANALYTICS (GA4)
+-----------------------
+Property:     asvab-practice-test (separate from other Grote projects)
+Measurement ID: G-50X7NDLJ7L
+Stream ID:    15140311439
+Stream URL:   https://jbautista-grotecompany.github.io/asvab-practice-test/
+
+Events tracked:
+  - Page view (automatic via gtag config)
+  - question_answered: fires on every question
+      Parameters: question_index, section (AR/MK), correct (true/false)
+  - test_complete: fires when all 38 questions are answered
+      Parameters: score, total, percent, ar_score, mk_score
+
+To view data: analytics.google.com → select asvab-practice-test property
+
+FORMSPREE (email results)
+-------------------------
+Endpoint:  https://formspree.io/f/mrewbwyb
+Recipient: jbautista@grotecompany.com
+
+Triggered when: test is completed (all 38 questions answered)
+Email contains:
+  - Total score (e.g. 30 / 38)
+  - Percentage correct
+  - AR section score
+  - MK section score
+  - Timestamp
+  - Page URL
+
+================================================================================
+TEST CONTENT — 38 QUESTIONS ACROSS 15 TOPICS
+================================================================================
+
+ARITHMETIC REASONING (15 questions)
+-------------------------------------
+Topic                          | Questions
+-------------------------------|----------
+Distance, rate & time          |     3
+Ratios & proportions           |     3
+Percentages                    |     3
+Combined work problems         |     2
+Measurement & unit conversion  |     2
+Interest & money math          |     2
+
+MATHEMATICS KNOWLEDGE (23 questions)
+--------------------------------------
+Topic                              | Questions
+-----------------------------------|----------
+Algebra — solving equations        |     3
+Factoring & expressions            |     3
+Geometry — area & perimeter        |     3
+Geometry — volume                  |     3
+Coordinate geometry & slope        |     3
+Exponents & square roots           |     3
+Absolute value                     |     2
+Probability & factorials           |     2
+Number properties & order of ops   |     3
+
+================================================================================
+QUESTION AUTHENTICITY
+================================================================================
+
+All questions were researched and written to match real ASVAB phrasing and
+difficulty based on official sources including:
+  - officialasvab.com (official ASVAB sample questions)
+  - Kaplan ASVAB Total Prep
+  - ASVAB for Dummies (Rod Powers)
+  - asvabpracticetests.com
+  - asvabadvantage.com
+
+Key design decisions:
+  - Absolute value questions use PEMDAS-inside-bars format (e.g. |4×3 − 20|)
+    matching how the real ASVAB presents them, not simple |−n| lookups
+  - Probability uses multi-color marble bags requiring total calculation first
+  - No calculator allowed on ASVAB — all arithmetic kept manageable by hand
+  - AR questions use plain civilian scenarios (not military-specific) to match
+    the actual test format
+
+All 38 answers were programmatically verified before final delivery.
+
+Bugs caught and fixed during QA:
+  1. Q30 (point on line): options (2,5) and (3,7) were BOTH valid answers for
+     y=2x+1. Fixed by changing (2,5) to (2,6) so only (3,7) is correct.
+  2. Cylinder volume question: had a garbled explanation with contradictory
+     text left over from an earlier fixedAns patch. Rewritten cleanly.
+  3. Absolute value questions: original phrasing (|-15+4|) was valid but weak.
+     Replaced with authentic ASVAB-style questions using PEMDAS inside the bars.
+
+================================================================================
+GITHUB DEPLOYMENT
+================================================================================
+
+Repository:   https://github.com/jbautista-grotecompany/asvab-practice-test
+GitHub Pages: Settings → Pages → Deploy from branch → main / root
+File name:    index.html (must be named index.html to serve as root page)
+
+To update the test:
+  1. Edit index.html locally
+  2. Upload to GitHub repo (Add file → Upload files → Commit)
+  3. GitHub Pages auto-deploys within ~60 seconds
+
+To share: send the live URL above — works on any phone or desktop browser,
+no app or login required.
+
+================================================================================
+END OF SUMMARY
+================================================================================
