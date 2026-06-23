@@ -237,6 +237,35 @@
 
   .explanation strong { color: var(--silver); }
 
+  .graph-btn {
+    display: inline-block;
+    margin-top: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    background: transparent;
+    color: var(--silver);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 12px;
+    transition: border-color 0.12s, background 0.12s;
+  }
+
+  .graph-btn:hover { border-color: var(--silver); background: var(--mid); }
+
+  .graph-wrap {
+    margin-top: 12px;
+    background: #111;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .graph-wrap canvas {
+    max-width: 100%;
+    height: auto;
+  }
+
   /* Results modal */
   .modal-backdrop {
     display: none;
@@ -432,46 +461,46 @@ const AR_TOPICS = [
   {
     topic: "Distance, rate & time",
     questions: [
-      { q: "A soldier runs 3 miles in 24 minutes. At that pace, how long to run 5 miles?", opts: ["36 min","40 min","42 min","45 min"], ans: 1, exp: "Rate = 24 ÷ 3 = 8 min/mile. 5 × 8 = 40 minutes." },
-      { q: "A convoy travels 240 miles in 4 hours. At the same speed, how far will it travel in 7 hours?", opts: ["360 mi","420 mi","480 mi","560 mi"], ans: 1, exp: "Speed = 240 ÷ 4 = 60 mph. 60 × 7 = 420 miles." },
-      { q: "Two soldiers start from the same point and walk in opposite directions at 4 mph and 6 mph. How far apart after 3 hours?", opts: ["18 mi","24 mi","30 mi","36 mi"], ans: 2, exp: "Combined speed = 4 + 6 = 10 mph. 10 × 3 = 30 miles apart." },
+      { q: "A car travels at 55 mph for 3 hours. How far does it travel?", opts: ["155 mi","165 mi","175 mi","185 mi"], ans: 1, exp: "Distance = speed × time = 55 × 3 = 165 miles." },
+      { q: "A train covers 360 miles in 6 hours. At the same speed, how long will it take to travel 480 miles?", opts: ["7 hrs","8 hrs","9 hrs","10 hrs"], ans: 1, exp: "Speed = 360 ÷ 6 = 60 mph. 480 ÷ 60 = 8 hours." },
+      { q: "Two cars leave the same point at the same time traveling in opposite directions, one at 45 mph and one at 55 mph. How far apart are they after 2 hours?", opts: ["90 mi","110 mi","180 mi","200 mi"], ans: 3, exp: "Combined speed = 45 + 55 = 100 mph. 100 × 2 = 200 miles apart." },
     ]
   },
   {
     topic: "Ratios & proportions",
     questions: [
-      { q: "A map scale is 1 inch = 25 miles. Two bases are 7 inches apart. What is the actual distance?", opts: ["32 mi","150 mi","175 mi","200 mi"], ans: 2, exp: "7 × 25 = 175 miles." },
-      { q: "A recipe calls for 3 cups of sugar for every 5 cups of flour. How many cups of sugar are needed for 20 cups of flour?", opts: ["10","12","15","8"], ans: 1, exp: "Ratio 3:5. 20 ÷ 5 × 3 = 12 cups of sugar." },
-      { q: "A gear with 12 teeth turns a gear with 36 teeth. If the small gear turns 9 times, how many times does the large gear turn?", opts: ["2","3","4","27"], ans: 1, exp: "Ratio = 12:36 = 1:3. 9 ÷ 3 = 3 rotations." },
+      { q: "A map uses a scale of 1 inch = 40 miles. If two cities are 3.5 inches apart on the map, what is the actual distance?", opts: ["100 mi","120 mi","140 mi","160 mi"], ans: 2, exp: "3.5 × 40 = 140 miles." },
+      { q: "If 5 workers can complete a job in 12 days, how many days would it take 10 workers to complete the same job?", opts: ["4","6","8","10"], ans: 1, exp: "Double the workers = half the time. 12 ÷ 2 = 6 days." },
+      { q: "A car uses 4 gallons of gas to travel 120 miles. At this rate, how many gallons are needed to travel 300 miles?", opts: ["8","10","12","15"], ans: 1, exp: "Rate = 120 ÷ 4 = 30 mpg. 300 ÷ 30 = 10 gallons." },
     ]
   },
   {
     topic: "Percentages",
     questions: [
-      { q: "A unit has 120 soldiers. 45 are on leave. What percent are on leave?", opts: ["35%","37.5%","40%","42%"], ans: 1, exp: "45 ÷ 120 = 0.375 = 37.5%." },
-      { q: "Boots cost $85 and are 20% off. What is the sale price?", opts: ["$65","$68","$72","$75"], ans: 1, exp: "20% of $85 = $17. $85 − $17 = $68." },
-      { q: "A soldier's pay increased from $2,000 to $2,300/month. What was the percent increase?", opts: ["13%","15%","17%","20%"], ans: 1, exp: "Increase = $300. 300 ÷ 2000 = 0.15 = 15%." },
+      { q: "A $200 jacket is on sale for $160. What is the percent decrease in price?", opts: ["15%","20%","25%","30%"], ans: 1, exp: "Decrease = $40. 40 ÷ 200 = 0.20 = 20% decrease." },
+      { q: "What is 35% of 280?", opts: ["84","90","98","105"], ans: 2, exp: "0.35 × 280 = 98." },
+      { q: "A student answered 18 out of 24 questions correctly. What percent did the student get correct?", opts: ["70%","72%","75%","78%"], ans: 2, exp: "18 ÷ 24 = 0.75 = 75%." },
     ]
   },
   {
     topic: "Combined work problems",
     questions: [
-      { q: "If 4 soldiers can dig a trench in 6 hours, how long would it take 8 soldiers?", opts: ["2 hrs","3 hrs","4 hrs","12 hrs"], ans: 1, exp: "Double the workers = half the time. 6 ÷ 2 = 3 hours." },
-      { q: "Soldier A can load a truck in 3 hours. Soldier B can load it in 6 hours. Working together, how long?", opts: ["1 hr","1.5 hrs","2 hrs","2.5 hrs"], ans: 2, exp: "Combined rate = 1/3 + 1/6 = 1/2 truck/hr. Time = 2 hours." },
+      { q: "Pipe A fills a tank in 4 hours. Pipe B fills the same tank in 12 hours. Working together, how long does it take to fill the tank?", opts: ["2 hrs","3 hrs","4 hrs","6 hrs"], ans: 1, exp: "Combined rate = 1/4 + 1/12 = 3/12 + 1/12 = 4/12 = 1/3. Time = 3 hours." },
+      { q: "Worker A can paint a fence in 6 hours. Worker B can paint it in 3 hours. How long if they work together?", opts: ["1 hr","2 hrs","3 hrs","4 hrs"], ans: 1, exp: "Combined rate = 1/6 + 1/3 = 1/6 + 2/6 = 3/6 = 1/2. Time = 2 hours." },
     ]
   },
   {
     topic: "Measurement & unit conversion",
     questions: [
-      { q: "A fuel tank holds 50 gallons. There are 3.785 liters per gallon. Approximately how many liters does the tank hold?", opts: ["150 L","175 L","189 L","200 L"], ans: 2, exp: "50 × 3.785 ≈ 189.25 liters." },
-      { q: "A field is 1,320 feet long. How many yards is that?", opts: ["330 yd","440 yd","660 yd","1,320 yd"], ans: 1, exp: "1 yard = 3 feet. 1,320 ÷ 3 = 440 yards." },
+      { q: "How many inches are in 4.5 feet?", opts: ["48 in","52 in","54 in","56 in"], ans: 2, exp: "1 foot = 12 inches. 4.5 × 12 = 54 inches." },
+      { q: "A container holds 3 gallons of liquid. How many quarts is that? (1 gallon = 4 quarts)", opts: ["8 qt","10 qt","12 qt","16 qt"], ans: 2, exp: "3 × 4 = 12 quarts." },
     ]
   },
   {
     topic: "Interest & money math",
     questions: [
-      { q: "A soldier earns $1,800/month and saves 25%. How much saved in one year?", opts: ["$450","$2,700","$5,400","$21,600"], ans: 2, exp: "25% of $1,800 = $450/month. $450 × 12 = $5,400." },
-      { q: "A $2,000 loan has a simple interest rate of 5% per year. How much interest is owed after 3 years?", opts: ["$100","$200","$300","$400"], ans: 2, exp: "Simple interest = P × r × t = 2000 × 0.05 × 3 = $300." },
+      { q: "John earns $2,400 per month. He spends 30% on rent. How much does he spend on rent each month?", opts: ["$480","$600","$720","$840"], ans: 2, exp: "0.30 × 2,400 = $720." },
+      { q: "A $1,500 loan has a simple annual interest rate of 8%. How much interest is owed after 2 years?", opts: ["$120","$180","$240","$300"], ans: 2, exp: "I = P × r × t = 1,500 × 0.08 × 2 = $240." },
     ]
   },
 ];
@@ -480,71 +509,71 @@ const MK_TOPICS = [
   {
     topic: "Algebra — solving equations",
     questions: [
-      { q: "Solve for x: 3x − 7 = 14", opts: ["x = 5","x = 6","x = 7","x = 8"], ans: 2, exp: "3x = 21 → x = 7." },
-      { q: "Solve for x: 2(x + 4) = 18", opts: ["x = 3","x = 5","x = 7","x = 9"], ans: 1, exp: "2x + 8 = 18 → 2x = 10 → x = 5." },
-      { q: "If 2x + 3y = 12 and x = 3, what is y?", opts: ["y = 1","y = 2","y = 3","y = 4"], ans: 1, exp: "2(3) + 3y = 12 → 6 + 3y = 12 → y = 2." },
+      { q: "Solve for x: 3(x − 4) = 18", opts: ["x = 6","x = 8","x = 10","x = 12"], ans: 2, exp: "Divide both sides by 3: x − 4 = 6. Add 4: x = 10." },
+      { q: "If 6w + 4 = 8w, what is the value of w?", opts: ["1","2","3","4"], ans: 1, exp: "6w + 4 = 8w → 4 = 2w → w = 2." },
+      { q: "If 2x + 3y = 12 and x = 3, what is y?", opts: ["y = 1","y = 2","y = 3","y = 4"], ans: 1, exp: "2(3) + 3y = 12 → 6 + 3y = 12 → 3y = 6 → y = 2." },
     ]
   },
   {
     topic: "Factoring & expressions",
     questions: [
-      { q: "Factor: x² − 9", opts: ["(x−3)(x+3)","(x−9)(x+1)","(x+3)²","(x−3)²"], ans: 0, exp: "Difference of squares: (x − 3)(x + 3)." },
-      { q: "Expand using FOIL: (x + 2)(x + 5)", opts: ["x² + 7x + 10","x² + 10x + 7","x² + 3x + 10","x² + 7x + 7"], ans: 0, exp: "F: x², O: 5x, I: 2x, L: 10 → x² + 7x + 10." },
-      { q: "Simplify: 3x² + 5x − 2x² + x", opts: ["x² + 6x","5x² + 6x","x² + 4x","5x² + 4x"], ans: 0, exp: "Combine like terms: (3−2)x² + (5+1)x = x² + 6x." },
+      { q: "Factor completely: x² − 16", opts: ["(x−4)(x+4)","(x−8)(x+2)","(x+4)²","(x−4)²"], ans: 0, exp: "x² − 16 is a difference of squares: (x − 4)(x + 4)." },
+      { q: "Expand: (x + 3)(x + 5)", opts: ["x² + 8x + 15","x² + 15x + 8","x² + 8x + 8","x² + 15x + 15"], ans: 0, exp: "FOIL: x² + 5x + 3x + 15 = x² + 8x + 15." },
+      { q: "Simplify: 5x² + 3x − 2x² + 4x", opts: ["3x² + 7x","7x² + 7x","3x² + 4x","7x² + 3x"], ans: 0, exp: "Combine like terms: (5−2)x² + (3+4)x = 3x² + 7x." },
     ]
   },
   {
     topic: "Geometry — area & perimeter",
     questions: [
-      { q: "What is the area of a triangle with base 10 cm and height 6 cm?", opts: ["16 cm²","30 cm²","60 cm²","120 cm²"], ans: 1, exp: "Area = ½ × 10 × 6 = 30 cm²." },
-      { q: "What is the perimeter of a rectangle with length 12 m and width 5 m?", opts: ["17 m","34 m","60 m","70 m"], ans: 1, exp: "P = 2(12 + 5) = 34 m." },
-      { q: "A circle has a radius of 7. What is its area? (π ≈ 3.14)", opts: ["43.96","153.86","219.8","44"], ans: 1, exp: "Area = π × r² = 3.14 × 49 = 153.86." },
+      { q: "A rectangle is cut in half to make two equal squares, each with an area of 25. What is the perimeter of the original rectangle?", opts: ["20","25","30","35"], ans: 2, exp: "Each square has side = 5. Rectangle is 5 × 10. Perimeter = 2(5+10) = 30." },
+      { q: "What is the area of a triangle with a base of 8 cm and a height of 5 cm?", opts: ["13 cm²","20 cm²","40 cm²","80 cm²"], ans: 1, exp: "Area = ½ × base × height = ½ × 8 × 5 = 20 cm²." },
+      { q: "A circle has a diameter of 10. What is its area? (π ≈ 3.14)", opts: ["31.4","78.5","157","314"], ans: 1, exp: "Radius = 10 ÷ 2 = 5. Area = π × r² = 3.14 × 25 = 78.5." },
     ]
   },
   {
     topic: "Geometry — volume",
     questions: [
-      { q: "What is the volume of a rectangular box that is 4 m long, 3 m wide, and 2 m tall?", opts: ["9 m³","18 m³","24 m³","36 m³"], ans: 2, exp: "Volume = l × w × h = 4 × 3 × 2 = 24 m³." },
-      { q: "A cylinder has a radius of 3 and height of 5. What is its volume? (π ≈ 3.14)", opts: ["94.2","141.3","47.1","188.4"], ans: 0, exp: "V = π × r² × h = 3.14 × 9 × 5 = 141.3... wait: 3.14 × 9 = 28.26 × 5 = 141.3. Closest: 141.3 — correct answer B. V = 3.14 × 9 × 5 = 141.3.", fixedAns: 1 },
-      { q: "What is the volume of a cube with side length 4 cm?", opts: ["16 cm³","32 cm³","48 cm³","64 cm³"], ans: 3, exp: "Volume = s³ = 4³ = 64 cm³." },
+      { q: "What is the volume of a rectangular box 5 m long, 4 m wide, and 3 m tall?", opts: ["36 m³","48 m³","60 m³","72 m³"], ans: 2, exp: "V = l × w × h = 5 × 4 × 3 = 60 m³." },
+      { q: "A cylinder has a radius of 3 and a height of 5. What is its volume? (π ≈ 3.14)", opts: ["47.1","94.2","141.3","188.4"], ans: 2, exp: "V = π × r² × h = 3.14 × 9 × 5 = 141.3." },
+      { q: "What is the volume of a cube with a side length of 5 cm?", opts: ["25 cm³","75 cm³","100 cm³","125 cm³"], ans: 3, exp: "V = s³ = 5³ = 125 cm³." },
     ]
   },
   {
     topic: "Coordinate geometry & slope",
     questions: [
-      { q: "What is the slope of the line through (2, 3) and (6, 11)?", opts: ["1","2","3","4"], ans: 1, exp: "Slope = (11−3)÷(6−2) = 8÷4 = 2." },
-      { q: "What is the y-intercept of the line y = 3x − 5?", opts: ["3","−3","5","−5"], ans: 3, exp: "In y = mx + b, b is the y-intercept. b = −5." },
-      { q: "Which point lies on the line y = 2x + 1?", opts: ["(1, 4)","(2, 6)","(3, 7)","(0, 2)"], ans: 2, exp: "Test (3, 7): y = 2(3) + 1 = 7. ✓  Check others: (1,4)→3≠4, (2,6)→5≠6, (0,2)→1≠2." },
+      { q: "What is the slope of the line through (2, 3) and (6, 11)?", opts: ["1","2","3","4"], ans: 1, exp: "Slope = (11−3) ÷ (6−2) = 8 ÷ 4 = 2.", graph: "slope_two_points" },
+      { q: "What is the y-intercept of the line y = 3x − 5?", opts: ["3","−3","5","−5"], ans: 3, exp: "In y = mx + b, b is the y-intercept. Here b = −5.", graph: "y_intercept" },
+      { q: "Which point lies on the line y = 2x + 1?", opts: ["(1, 4)","(2, 6)","(3, 7)","(0, 2)"], ans: 2, exp: "Test (3, 7): y = 2(3) + 1 = 7. ✓ Others: (1,4)→3≠4, (2,6)→5≠6, (0,2)→1≠2.", graph: "point_on_line" },
     ]
   },
   {
     topic: "Exponents & square roots",
     questions: [
-      { q: "Simplify: 4² + √9", opts: ["7","19","25","13"], ans: 1, exp: "4² = 16. √9 = 3. 16 + 3 = 19." },
-      { q: "What is 2⁵?", opts: ["10","16","25","32"], ans: 3, exp: "2⁵ = 2×2×2×2×2 = 32." },
-      { q: "What is √144?", opts: ["11","12","13","14"], ans: 1, exp: "12 × 12 = 144, so √144 = 12." },
+      { q: "What is the value of √25 + 3²?", opts: ["11","14","16","34"], ans: 1, exp: "√25 = 5. 3² = 9. 5 + 9 = 14." },
+      { q: "If 5¹¹ = 5² × 5ⁿ, what is the value of n?", opts: ["5","7","9","13"], ans: 2, exp: "When multiplying same bases, add exponents: 2 + n = 11, so n = 9." },
+      { q: "What is √169?", opts: ["11","12","13","14"], ans: 2, exp: "13 × 13 = 169, so √169 = 13." },
     ]
   },
   {
     topic: "Absolute value",
     questions: [
-      { q: "What is |−15 + 4|?", opts: ["11","−11","19","−19"], ans: 0, exp: "−15 + 4 = −11. |−11| = 11." },
-      { q: "What is |3 − 10| + |−2|?", opts: ["5","7","9","15"], ans: 2, exp: "|3−10| = |−7| = 7. |−2| = 2. 7 + 2 = 9." },
+      { q: "What is the value of |4 × 3 − 20|?", opts: ["8","−8","32","−32"], ans: 0, exp: "Solve inside first: 4 × 3 = 12. Then 12 − 20 = −8. Absolute value of −8 is 8." },
+      { q: "What is |24 − 26 × 2|?", opts: ["28","−28","76","52"], ans: 0, exp: "Multiply first: 26 × 2 = 52. Then 24 − 52 = −28. |−28| = 28." },
     ]
   },
   {
     topic: "Probability & factorials",
     questions: [
-      { q: "A bag has 3 red and 7 blue marbles. What is the probability of picking a red one?", opts: ["3/10","7/10","1/3","3/7"], ans: 0, exp: "P = 3 out of 10 total = 3/10." },
-      { q: "What is 4! (4 factorial)?", opts: ["8","16","24","32"], ans: 2, exp: "4! = 4 × 3 × 2 × 1 = 24." },
+      { q: "A bag contains 4 red, 3 blue, 7 green, and 10 yellow marbles. What is the probability of randomly picking a red marble?", opts: ["1/4","1/6","4/21","4/24"], ans: 1, exp: "Total = 4+3+7+10 = 24. P(red) = 4/24 = 1/6." },
+      { q: "What is the value of 5!?", opts: ["25","60","120","240"], ans: 2, exp: "5! = 5 × 4 × 3 × 2 × 1 = 120." },
     ]
   },
   {
     topic: "Number properties & order of operations",
     questions: [
-      { q: "Which of the following is a prime number?", opts: ["21","27","29","33"], ans: 2, exp: "29 is divisible only by 1 and itself. The others are divisible by 3 or 7." },
-      { q: "Evaluate: 3 + 4 × 2 − (6 ÷ 3)", opts: ["6","8","9","12"], ans: 2, exp: "PEMDAS: 6÷3=2 first (parentheses), then 4×2=8, then 3+8−2 = 9." },
-      { q: "Which property is shown: 4 × (3 + 2) = 4×3 + 4×2?", opts: ["Commutative","Associative","Distributive","Identity"], ans: 2, exp: "Multiplying across addition is the distributive property." },
+      { q: "For all positive values of x less than 50, how many values are divisible by both 3 and 5?", opts: ["1","2","3","4"], ans: 2, exp: "Must be divisible by 15. Values: 15, 30, 45 — that's 3 values." },
+      { q: "Evaluate: (8 ÷ 4) × 13(2)", opts: ["26","52","104","208"], ans: 1, exp: "Parentheses first: 8÷4=2. Then 13×2=26. Finally 2×26=52." },
+      { q: "Which property is shown: 5 × (2 + 3) = 5×2 + 5×3?", opts: ["Commutative","Associative","Distributive","Identity"], ans: 2, exp: "Distributing multiplication across addition is the distributive property." },
     ]
   },
 ];
@@ -593,7 +622,9 @@ function renderSection(topics, containerId, tagClass, tagLabel, globalOffset) {
             '</button>'
           ).join('') +
         '</div>' +
-        '<div class="explanation" id="exp-' + gi + '"><strong>Explanation:</strong> ' + q.exp + '</div>';
+        '<div class="explanation" id="exp-' + gi + '"><strong>Explanation:</strong> ' + q.exp +
+        (q.graph ? ' <button class="graph-btn" onclick="toggleGraph(\'' + gi + '\',\'' + q.graph + '\')">Show graph ↓</button><div class="graph-wrap" id="graph-' + gi + '" style="display:none"><canvas id="canvas-' + gi + '" width="460" height="260"></canvas></div>' : '') +
+      '</div>';
       group.appendChild(card);
       gi++;
     });
@@ -707,6 +738,174 @@ function resetTest() {
   buildQuestionList();
   renderSection(AR_TOPICS, 'ar-container', 'tag-ar', 'AR', 0);
   renderSection(MK_TOPICS, 'mk-container', 'tag-mk', 'MK', arTotal);
+}
+
+// ─── Graph helpers ────────────────────────────────────────────────
+function toggleGraph(gi, type) {
+  const wrap = document.getElementById('graph-' + gi);
+  const btn = wrap.previousElementSibling;
+  if (wrap.style.display === 'none') {
+    wrap.style.display = 'block';
+    btn.textContent = 'Hide graph ↑';
+    const canvas = document.getElementById('canvas-' + gi);
+    if (!canvas.dataset.drawn) {
+      canvas.dataset.drawn = '1';
+      drawGraph(canvas, type);
+    }
+  } else {
+    wrap.style.display = 'none';
+    btn.textContent = 'Show graph ↓';
+  }
+}
+
+function drawGraph(canvas, type) {
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const PAD = 48;
+  const silver = '#c4c4c4';
+  const muted = '#555';
+  const gridCol = '#2a2a2a';
+  const green = '#81c784';
+  const red = '#ef9a9a';
+  const blue = '#7eb8f7';
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#111';
+  ctx.fillRect(0, 0, W, H);
+
+  // coordinate range depends on graph type
+  let xMin, xMax, yMin, yMax;
+  if (type === 'slope_two_points') { xMin=-1; xMax=9; yMin=-1; yMax=14; }
+  else if (type === 'y_intercept')  { xMin=-2; xMax=5; yMin=-8; yMax=12; }
+  else                              { xMin=-1; xMax=5; yMin=-1; yMax=12; }
+
+  function toPixel(x, y) {
+    const px = PAD + (x - xMin) / (xMax - xMin) * (W - PAD*2);
+    const py = H - PAD - (y - yMin) / (yMax - yMin) * (H - PAD*2);
+    return [px, py];
+  }
+
+  // grid
+  ctx.strokeStyle = gridCol;
+  ctx.lineWidth = 0.5;
+  for (let gx = Math.ceil(xMin); gx <= xMax; gx++) {
+    const [px] = toPixel(gx, 0);
+    ctx.beginPath(); ctx.moveTo(px, PAD); ctx.lineTo(px, H - PAD); ctx.stroke();
+  }
+  for (let gy = Math.ceil(yMin); gy <= yMax; gy++) {
+    const [, py] = toPixel(0, gy);
+    ctx.beginPath(); ctx.moveTo(PAD, py); ctx.lineTo(W - PAD, py); ctx.stroke();
+  }
+
+  // axes
+  ctx.strokeStyle = muted;
+  ctx.lineWidth = 1;
+  const [ax0] = toPixel(0, yMin); const [ax1] = toPixel(0, yMax);
+  const [,ay0] = toPixel(xMin, 0); const [,ay1] = toPixel(xMax, 0);
+  ctx.beginPath(); ctx.moveTo(ax0, PAD); ctx.lineTo(ax0, H-PAD); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(PAD, ay0); ctx.lineTo(W-PAD, ay0); ctx.stroke();
+
+  // axis labels
+  ctx.fillStyle = muted;
+  ctx.font = '11px Inter, sans-serif';
+  ctx.textAlign = 'center';
+  for (let gx = Math.ceil(xMin); gx <= xMax; gx++) {
+    if (gx === 0) continue;
+    const [px, py] = toPixel(gx, 0);
+    ctx.fillText(gx, px, py + 14);
+  }
+  ctx.textAlign = 'right';
+  for (let gy = Math.ceil(yMin); gy <= yMax; gy++) {
+    if (gy === 0) continue;
+    const [px, py] = toPixel(0, gy);
+    ctx.fillText(gy, px - 5, py + 4);
+  }
+
+  // axis labels x/y
+  ctx.fillStyle = silver;
+  ctx.font = '12px Inter, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('x', W - PAD + 14, ay0 + 4);
+  ctx.fillText('y', ax0, PAD - 10);
+
+  function drawLine(m, b, color) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    const x0 = xMin, y0 = m * x0 + b;
+    const x1 = xMax, y1 = m * x1 + b;
+    const [p0x, p0y] = toPixel(x0, y0);
+    const [p1x, p1y] = toPixel(x1, y1);
+    ctx.moveTo(p0x, p0y); ctx.lineTo(p1x, p1y); ctx.stroke();
+  }
+
+  function dot(x, y, color, label, labelPos) {
+    const [px, py] = toPixel(x, y);
+    ctx.beginPath();
+    ctx.arc(px, py, 5, 0, Math.PI*2);
+    ctx.fillStyle = color;
+    ctx.fill();
+    if (label) {
+      ctx.fillStyle = color;
+      ctx.font = '12px Inter, sans-serif';
+      ctx.textAlign = labelPos === 'left' ? 'right' : 'left';
+      const ox = labelPos === 'left' ? -10 : 10;
+      ctx.fillText(label, px + ox, py - 6);
+    }
+  }
+
+  function drawRiseRun(x1,y1,x2,y2) {
+    const [p1x,p1y] = toPixel(x1,y1);
+    const [p2x,p2y] = toPixel(x2,y2);
+    const [cornerX,cornerY] = toPixel(x2,y1);
+    ctx.strokeStyle = '#555';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4,3]);
+    ctx.beginPath(); ctx.moveTo(p1x,p1y); ctx.lineTo(cornerX,cornerY); ctx.lineTo(p2x,p2y); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = muted;
+    ctx.font = '11px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('run = 4', (p1x+cornerX)/2, cornerY+14);
+    ctx.textAlign = 'left';
+    ctx.fillText('rise = 8', cornerX+6, (cornerY+p2y)/2);
+  }
+
+  if (type === 'slope_two_points') {
+    drawLine(2, -1, green);
+    drawRiseRun(2,3,6,11);
+    dot(2, 3, silver, '(2, 3)', 'left');
+    dot(6, 11, silver, '(6, 11)', 'left');
+    ctx.fillStyle = green;
+    ctx.font = '12px Inter, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('slope = rise/run = 8/4 = 2', PAD + 4, PAD + 16);
+
+  } else if (type === 'y_intercept') {
+    drawLine(3, -5, green);
+    dot(0, -5, blue, 'y-intercept (0, −5)', 'right');
+    // show where it crosses x axis too
+    dot(5/3, 0, muted, null, 'right');
+    ctx.fillStyle = green;
+    ctx.font = '12px Inter, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('y = 3x − 5', PAD + 4, PAD + 16);
+    ctx.fillStyle = blue;
+    ctx.fillText('b = −5  (y-intercept)', PAD + 4, PAD + 32);
+
+  } else if (type === 'point_on_line') {
+    drawLine(2, 1, green);
+    const points = [[1,4],[2,6],[3,7],[0,2]];
+    const colors = [red, red, silver, red];
+    const labels = ['A(1,4)','B(2,6)','C(3,7) ✓','D(0,2)'];
+    points.forEach(([x,y], i) => dot(x, y, colors[i], labels[i], x < 2 ? 'left' : 'right'));
+    ctx.fillStyle = green;
+    ctx.font = '12px Inter, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('y = 2x + 1', PAD + 4, PAD + 16);
+    ctx.fillStyle = silver;
+    ctx.fillText('C(3,7) lies on the line', PAD + 4, PAD + 32);
+  }
 }
 
 // ─── Init ─────────────────────────────────────────────────────────
